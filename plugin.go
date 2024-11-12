@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"gitlab.justlab.xyz/alertflow-public/runner/pkg/executions"
 	"gitlab.justlab.xyz/alertflow-public/runner/pkg/models"
 )
@@ -97,5 +98,7 @@ func (p *ActionsCheckPlugin) Execute(execution models.Execution, flow models.Flo
 		return nil, false, true, false, false
 	}
 }
+
+func (p *ActionsCheckPlugin) Handle(context *gin.Context) {}
 
 var Plugin ActionsCheckPlugin
