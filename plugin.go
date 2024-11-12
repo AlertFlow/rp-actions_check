@@ -9,7 +9,16 @@ import (
 
 type ActionsCheckPlugin struct{}
 
-func (p *ActionsCheckPlugin) Init() models.ActionDetails {
+func (p *ActionsCheckPlugin) Init() models.Plugin {
+	return models.Plugin{
+		Name:    "Actions Check",
+		Type:    "action",
+		Version: "1.0.1",
+		Creator: "JustNZ",
+	}
+}
+
+func (p *ActionsCheckPlugin) Details() models.ActionDetails {
 	return models.ActionDetails{
 		Name:        "Actions Check",
 		Description: "Check if there are any actions defined in the flow",
