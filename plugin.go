@@ -19,16 +19,18 @@ func (p *ActionsCheckPlugin) Init() models.Plugin {
 	}
 }
 
-func (p *ActionsCheckPlugin) Details() models.ActionDetails {
-	return models.ActionDetails{
-		Name:        "Actions Check",
-		Description: "Check if there are any actions defined in the flow",
-		Icon:        "solar:bolt-linear",
-		Type:        "actions_check",
-		Category:    "Flow",
-		Function:    p.Execute,
-		IsHidden:    true,
-		Params:      nil,
+func (p *ActionsCheckPlugin) Details() models.PluginDetails {
+	return models.PluginDetails{
+		Action: models.ActionDetails{
+			Name:        "Actions Check",
+			Description: "Check if there are any actions defined in the flow",
+			Icon:        "solar:bolt-linear",
+			Type:        "actions_check",
+			Category:    "Flow",
+			Function:    p.Execute,
+			IsHidden:    true,
+			Params:      nil,
+		},
 	}
 }
 
