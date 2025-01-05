@@ -3,9 +3,9 @@ package main
 import (
 	"time"
 
+	"github.com/AlertFlow/runner/pkg/executions"
+	"github.com/AlertFlow/runner/pkg/models"
 	"github.com/gin-gonic/gin"
-	"gitlab.justlab.xyz/alertflow-public/runner/pkg/executions"
-	"gitlab.justlab.xyz/alertflow-public/runner/pkg/models"
 )
 
 type ActionsCheckPlugin struct{}
@@ -14,7 +14,7 @@ func (p *ActionsCheckPlugin) Init() models.Plugin {
 	return models.Plugin{
 		Name:    "Actions Check",
 		Type:    "action",
-		Version: "1.0.4",
+		Version: "1.0.5",
 		Creator: "JustNZ",
 	}
 }
