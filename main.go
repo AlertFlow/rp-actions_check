@@ -5,8 +5,8 @@ import (
 	"net/rpc"
 	"time"
 
-	"github.com/AlertFlow/runner/pkg/executions"
-	"github.com/AlertFlow/runner/pkg/plugins"
+	"github.com/v1Flows/runner/pkg/executions"
+	"github.com/v1Flows/runner/pkg/plugins"
 
 	"github.com/v1Flows/alertFlow/services/backend/pkg/models"
 
@@ -111,7 +111,7 @@ func (p *Plugin) Info() (models.Plugins, error) {
 	var plugin = models.Plugins{
 		Name:    "Actions Check",
 		Type:    "action",
-		Version: "1.1.1",
+		Version: "1.1.2",
 		Author:  "JustNZ",
 		Actions: models.Actions{
 			Name:        "Actions Check",
