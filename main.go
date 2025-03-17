@@ -8,7 +8,7 @@ import (
 	"github.com/v1Flows/runner/pkg/executions"
 	"github.com/v1Flows/runner/pkg/plugins"
 
-	"github.com/v1Flows/alertFlow/services/backend/pkg/models"
+	"github.com/v1Flows/shared-library/pkg/models"
 
 	"github.com/hashicorp/go-plugin"
 )
@@ -22,8 +22,13 @@ type Plugin struct{}
 
 func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Response, error) {
 	err := executions.UpdateStep(request.Config, request.Execution.ID.String(), models.ExecutionSteps{
-		ID:        request.Step.ID,
-		Messages:  []string{"Checking for flow actions"},
+		ID: request.Step.ID,
+		Messages: []models.Message{
+			{
+				Title: "Actions Checks",
+				Lines: []string{"Checking for flow actions"},
+			},
+		},
 		Status:    "running",
 		StartedAt: time.Now(),
 	})
@@ -44,8 +49,13 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 
 		if count == 0 {
 			err := executions.UpdateStep(request.Config, request.Execution.ID.String(), models.ExecutionSteps{
-				ID:         request.Step.ID,
-				Messages:   []string{"Flow has no active Actions defined. Cancel execution"},
+				ID: request.Step.ID,
+				Messages: []models.Message{
+					{
+						Title: "Actions Checks",
+						Lines: []string{"Flow has no active Actions defined. Cancel execution"},
+					},
+				},
 				Status:     "canceled",
 				CanceledBy: "Flow Action Check",
 				CanceledAt: time.Now(),
@@ -64,8 +74,13 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 			}, nil
 		} else {
 			err := executions.UpdateStep(request.Config, request.Execution.ID.String(), models.ExecutionSteps{
-				ID:         request.Step.ID,
-				Messages:   []string{"Flow has Actions defined"},
+				ID: request.Step.ID,
+				Messages: []models.Message{
+					{
+						Title: "Actions Checks",
+						Lines: []string{"Flow has Actions defined"},
+					},
+				},
 				Status:     "success",
 				FinishedAt: time.Now(),
 			})
@@ -80,8 +95,13 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 		}
 	} else {
 		err := executions.UpdateStep(request.Config, request.Execution.ID.String(), models.ExecutionSteps{
-			ID:         request.Step.ID,
-			Messages:   []string{"Flow has no Actions defined. Cancel execution"},
+			ID: request.Step.ID,
+			Messages: []models.Message{
+				{
+					Title: "Actions Checks",
+					Lines: []string{"Flow has no Actions defined. Cancel execution"},
+				},
+			},
 			Status:     "canceled",
 			CanceledBy: "Flow Action Check",
 			CanceledAt: time.Now(),
@@ -107,13 +127,13 @@ func (p *Plugin) HandleAlert(request plugins.AlertHandlerRequest) (plugins.Respo
 	}, errors.New("not implemented")
 }
 
-func (p *Plugin) Info() (models.Plugins, error) {
-	var plugin = models.Plugins{
+func (p *Plugin) Info() (models.Plugin, error) {
+	var plugin = models.Plugin{
 		Name:    "Actions Check",
 		Type:    "action",
-		Version: "1.1.2",
+		Version: "1.1.3",
 		Author:  "JustNZ",
-		Actions: models.Actions{
+		Action: models.Action{
 			Name:        "Actions Check",
 			Description: "Check for actions in flow",
 			Plugin:      "actions_check",
@@ -121,7 +141,7 @@ func (p *Plugin) Info() (models.Plugins, error) {
 			Category:    "Flow",
 			Params:      nil,
 		},
-		Endpoints: models.AlertEndpoints{},
+		Endpoint: models.Endpoint{},
 	}
 
 	return plugin, nil
@@ -144,7 +164,7 @@ func (s *PluginRPCServer) HandleAlert(request plugins.AlertHandlerRequest, resp 
 	return err
 }
 
-func (s *PluginRPCServer) Info(args interface{}, resp *models.Plugins) error {
+func (s *PluginRPCServer) Info(args interface{}, resp *models.Plugin) error {
 	result, err := s.Impl.Info()
 	*resp = result
 	return err
