@@ -4,10 +4,13 @@ go 1.24.0
 
 require (
 	github.com/hashicorp/go-plugin v1.6.3
-	github.com/v1Flows/runner v1.0.0-beta1.0.20250317155614-09619030c59e
+	github.com/v1Flows/runner v1.0.0-beta1.0.20250318080256-1cac3c88adbc
 )
 
-require github.com/v1Flows/alertFlow/services/backend v0.0.0-20250317112742-7a11f04dd445 // indirect
+require (
+	github.com/v1Flows/alertFlow/services/backend v0.0.0-20250317112742-7a11f04dd445 // indirect
+	github.com/v1Flows/exFlow/services/backend v0.0.0-20250314134041-010ef4dcb540 // indirect
+)
 
 require (
 	github.com/fatih/color v1.18.0 // indirect

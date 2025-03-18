@@ -31,7 +31,7 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 		},
 		Status:    "running",
 		StartedAt: time.Now(),
-	})
+	}, request.Platform)
 	if err != nil {
 		return plugins.Response{
 			Success: false,
@@ -60,7 +60,7 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 				CanceledBy: "Flow Action Check",
 				CanceledAt: time.Now(),
 				FinishedAt: time.Now(),
-			})
+			}, request.Platform)
 			if err != nil {
 				return plugins.Response{
 					Success: false,
@@ -83,7 +83,7 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 				},
 				Status:     "success",
 				FinishedAt: time.Now(),
-			})
+			}, request.Platform)
 			if err != nil {
 				return plugins.Response{
 					Success: false,
@@ -106,7 +106,7 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 			CanceledBy: "Flow Action Check",
 			CanceledAt: time.Now(),
 			FinishedAt: time.Now(),
-		})
+		}, request.Platform)
 		if err != nil {
 			return plugins.Response{
 				Success: false,
@@ -121,7 +121,7 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 	}
 }
 
-func (p *Plugin) HandleAlert(request plugins.AlertHandlerRequest) (plugins.Response, error) {
+func (p *Plugin) EndpointRequest(request plugins.EndpointRequest) (plugins.Response, error) {
 	return plugins.Response{
 		Success: false,
 	}, errors.New("not implemented")
@@ -158,8 +158,8 @@ func (s *PluginRPCServer) ExecuteTask(request plugins.ExecuteTaskRequest, resp *
 	return err
 }
 
-func (s *PluginRPCServer) HandleAlert(request plugins.AlertHandlerRequest, resp *plugins.Response) error {
-	result, err := s.Impl.HandleAlert(request)
+func (s *PluginRPCServer) EndpointRequest(request plugins.EndpointRequest, resp *plugins.Response) error {
+	result, err := s.Impl.EndpointRequest(request)
 	*resp = result
 	return err
 }
