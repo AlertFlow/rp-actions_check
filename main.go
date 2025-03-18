@@ -131,7 +131,7 @@ func (p *Plugin) Info() (models.Plugin, error) {
 	var plugin = models.Plugin{
 		Name:    "Actions Check",
 		Type:    "action",
-		Version: "1.1.3",
+		Version: "1.2.0",
 		Author:  "JustNZ",
 		Action: models.Action{
 			Name:        "Actions Check",
