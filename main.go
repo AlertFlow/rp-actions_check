@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"net/rpc"
+	"strconv"
 	"time"
 
 	"github.com/v1Flows/runner/pkg/executions"
@@ -26,7 +27,11 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 		Messages: []models.Message{
 			{
 				Title: "Actions Checks",
-				Lines: []string{"Checking for flow actions"},
+				Lines: []models.Line{
+					{
+						Content: "Checking for actions in flow",
+					},
+				},
 			},
 		},
 		Status:    "running",
@@ -53,7 +58,12 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 				Messages: []models.Message{
 					{
 						Title: "Actions Checks",
-						Lines: []string{"Flow has no active Actions defined. Cancel execution"},
+						Lines: []models.Line{
+							{
+								Content: "Flow has no Actions defined. Cancel execution",
+								Color:   "danger",
+							},
+						},
 					},
 				},
 				Status:     "canceled",
@@ -78,7 +88,12 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 				Messages: []models.Message{
 					{
 						Title: "Actions Checks",
-						Lines: []string{"Flow has Actions defined"},
+						Lines: []models.Line{
+							{
+								Content: "Found " + strconv.Itoa(count) + " actions in flow",
+								Color:   "success",
+							},
+						},
 					},
 				},
 				Status:     "success",
@@ -99,7 +114,19 @@ func (p *Plugin) ExecuteTask(request plugins.ExecuteTaskRequest) (plugins.Respon
 			Messages: []models.Message{
 				{
 					Title: "Actions Checks",
-					Lines: []string{"Flow has no Actions defined. Cancel execution"},
+					Lines: []models.Line{
+						{
+							Content: "Flow has no Actions defined",
+							Color:   "danger",
+						},
+						{
+							Content: "Please add actions to the flow",
+						},
+						{
+							Content: "Cancel execution",
+							Color:   "danger",
+						},
+					},
 				},
 			},
 			Status:     "canceled",
@@ -131,7 +158,7 @@ func (p *Plugin) Info(request plugins.InfoRequest) (models.Plugin, error) {
 	var plugin = models.Plugin{
 		Name:    "Actions Check",
 		Type:    "action",
-		Version: "1.2.2",
+		Version: "1.2.3",
 		Author:  "JustNZ",
 		Action: models.Action{
 			Name:        "Actions Check",
